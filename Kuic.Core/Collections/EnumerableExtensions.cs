@@ -13,7 +13,7 @@ namespace Kuic.Core.Collections
             _ = selector ?? throw new ArgumentNullException(nameof(selector));
             return Implementation(source, selector);
 
-            IEnumerable<TElement> Implementation(IEnumerable<TElement> source, Func<TElement, TProperty> selector)
+            static IEnumerable<TElement> Implementation(IEnumerable<TElement> source, Func<TElement, TProperty> selector)
             {
                 var hashSet = new HashSet<TProperty>();
 

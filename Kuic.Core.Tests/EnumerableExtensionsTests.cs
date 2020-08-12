@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions;
+using Kuic.Core.Collections;
 using Xunit;
 using L = System.Action; // Lambda
 using A = System.Func<System.Threading.Tasks.Task>; // Async lambda
-using Kuic.Core.Collections;
 
 namespace Kuic.Core.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class EnumerableExtensionsTests
     {
 #nullable disable
