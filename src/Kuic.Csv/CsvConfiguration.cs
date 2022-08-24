@@ -28,7 +28,7 @@ namespace Kuic.Csv
         private CultureInfo _culture;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the BOM should be added in the file.
+        /// Gets or sets a value indicating whether the BOM should be added in the file. (Default is <c>true</c>)
         /// </summary>
         /// <value>
         ///   <c>true</c> if the BOM should be added in the file; otherwise, <c>false</c>.
@@ -36,7 +36,7 @@ namespace Kuic.Csv
         public bool AddBomInFile { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the headers line should be added.
+        /// Gets or sets a value indicating whether the headers line should be added. (Default is <c>true</c>)
         /// </summary>
         /// <value>
         ///   <c>true</c> if the headers line should be added; otherwise, <c>false</c>.
@@ -44,7 +44,7 @@ namespace Kuic.Csv
         public bool AddHeaders { get; set; }
 
         /// <summary>
-        /// Gets or sets the builder's encoding.
+        /// Gets or sets the builder's encoding. (Default is <c>Encoding.UTF8</c>)
         /// </summary>
         /// <value>
         /// The encoding.
@@ -57,7 +57,7 @@ namespace Kuic.Csv
         }
 
         /// <summary>
-        /// Gets or sets the separator.
+        /// Gets or sets the separator. (Default the list separator of current culture)
         /// </summary>
         /// <value>
         /// The separator.
@@ -85,7 +85,7 @@ namespace Kuic.Csv
         }
 
         /// <summary>
-        /// Gets or sets the culture.
+        /// Gets or sets the culture. (Default is the current culture)
         /// </summary>
         /// <value>
         /// The culture.
