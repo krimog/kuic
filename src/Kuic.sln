@@ -9,9 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuic.Core.Tests", "Kuic.Cor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{425B3DC8-3673-442B-ACAD-6994A387E992}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kuic.Csv", "Kuic.Csv\Kuic.Csv.csproj", "{31DD411D-E7AB-4FDB-8AD6-79703A28520D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuic.Csv", "Kuic.Csv\Kuic.Csv.csproj", "{31DD411D-E7AB-4FDB-8AD6-79703A28520D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kuic.Csv.Tests", "Kuic.Csv.Tests\Kuic.Csv.Tests.csproj", "{A5B6472F-1CC2-4079-9935-4AF448FDF559}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuic.Csv.Tests", "Kuic.Csv.Tests\Kuic.Csv.Tests.csproj", "{A5B6472F-1CC2-4079-9935-4AF448FDF559}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{80202FC5-3F1F-4929-9E1B-82095040859B}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE = ..\LICENSE
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,16 +10,25 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/krimog/kuic</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Krimog's Useful Implementations for C# - Core
-- Useful extension methods</Description>
-    <Version>1.0.1</Version>
+    <Description>Krimog's Useful Implementations for C# - Core - Useful extension methods</Description>
+    <Version>1.0.2</Version>
 	<LangVersion>10.0</LangVersion>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryType></RepositoryType>
+	<RepositoryUrl>https://github.com/krimog/kuic/</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE">
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
