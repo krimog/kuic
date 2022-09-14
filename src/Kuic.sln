@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\LICENSE = ..\LICENSE
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuic.Wpf", "Kuic.Wpf\Kuic.Wpf.csproj", "{C2DF2904-743B-4EF3-9830-678842714DDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{A5B6472F-1CC2-4079-9935-4AF448FDF559}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5B6472F-1CC2-4079-9935-4AF448FDF559}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5B6472F-1CC2-4079-9935-4AF448FDF559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2DF2904-743B-4EF3-9830-678842714DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2DF2904-743B-4EF3-9830-678842714DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2DF2904-743B-4EF3-9830-678842714DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2DF2904-743B-4EF3-9830-678842714DDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

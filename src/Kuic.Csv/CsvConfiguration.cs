@@ -5,9 +5,9 @@ using System.Text;
 namespace Kuic.Csv
 {
     /// <summary>
-    /// Reprensents the configuration of the <see cref="CsvBuilder{TSource}"/>.
+    /// Provides configuration for both <see cref="CsvBuilder{TElement}"/> and <see cref="CsvReader{TElement}"/>.
     /// </summary>
-    public class CsvConfiguration
+    public class CsvConfiguration : ICsvBuilderConfiguration, ICsvReaderConfiguration
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvConfiguration"/> class.
@@ -19,7 +19,8 @@ namespace Kuic.Csv
             _separator = _culture.TextInfo.ListSeparator;
 
             AddBomInFile = true;
-            AddHeaders = true;
+            HasHeaders = true;
+            KeepStreamOpen = true;
         }
 
         private bool _hasSeparatorBeenSet = false;
@@ -28,28 +29,30 @@ namespace Kuic.Csv
         private CultureInfo _culture;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the BOM should be added in the file. (Default is <c>true</c>)
+        /// Gets or sets a value indicating whether the CSV file has headers or not.
+        /// Default is <c>true</c>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the BOM should be added in the file; otherwise, <c>false</c>.
+        /// <c>true</c> if the file has headers; otherwise, <c>false</c>.
         /// </value>
-        public bool AddBomInFile { get; set; }
+        public bool HasHeaders { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the headers line should be added. (Default is <c>true</c>)
+        /// Gets or sets a value indicating whether the columns should be generated automatically or not.
+        /// Default is <c>null</c>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the headers line should be added; otherwise, <c>false</c>.
+        /// <c>true</c> if the columns should be generated automatically; <c>false</c> if not; <c>null</c> if it depends on whether you have manually added columns.
         /// </value>
-        public bool AddHeaders { get; set; }
+        public bool? AutoGenerate { get; set; }
 
         /// <summary>
-        /// Gets or sets the builder's encoding. (Default is <c>Encoding.UTF8</c>)
+        /// Gets or sets the encoding of the CSV file.
+        /// Default is UTF8.
         /// </summary>
         /// <value>
-        /// The encoding.
+        /// The encoding of the CSV file.
         /// </value>
-        /// <exception cref="System.ArgumentNullException">value</exception>
         public Encoding Encoding
         {
             get => _encoding;
@@ -57,19 +60,12 @@ namespace Kuic.Csv
         }
 
         /// <summary>
-        /// Gets or sets the separator. (Default the list separator of current culture)
+        /// Gets or sets the separator of the CSV file.
+        /// Default is the culture's separator.
         /// </summary>
         /// <value>
-        /// The separator.
+        /// The separator of the CSV file.
         /// </value>
-        /// <exception cref="System.ArgumentNullException">value</exception>
-        /// <exception cref="System.ArgumentException">
-        /// The separator can't be empty.
-        /// or
-        /// The separator can't contain ".
-        /// or
-        /// The separator can't contain a new line character.
-        /// </exception>
         public string Separator
         {
             get => _separator;
@@ -85,12 +81,12 @@ namespace Kuic.Csv
         }
 
         /// <summary>
-        /// Gets or sets the culture. (Default is the current culture)
+        /// Gets or sets the culture of the CSV file.
+        /// Default is CurrentCulture.
         /// </summary>
         /// <value>
-        /// The culture.
+        /// The culture of the CSV file.
         /// </value>
-        /// <exception cref="System.ArgumentNullException">value</exception>
         public CultureInfo Culture
         {
             get => _culture;
@@ -102,16 +98,33 @@ namespace Kuic.Csv
         }
 
         /// <summary>
-        /// Sets the culture.
+        /// Sets the culture of the CSV file.
         /// </summary>
-        /// <param name="cultureName">Name of the culture.</param>
-        /// <example><c>SetCulture("en-US");</c></example>
-        /// <exception cref="System.ArgumentNullException">cultureName</exception>
+        /// <param name="cultureName">The name of the culture in the "en-US" format.</param>
         public void SetCulture(string cultureName)
         {
             _ = cultureName ?? throw new ArgumentNullException(nameof(cultureName));
             var cultureInfo = new CultureInfo(cultureName);
             Culture = cultureInfo;
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the BOM should be written in the CSV file or not.
+        /// Only used by the <see cref="CsvBuilder{TElement}"/>, and only while using the <see cref="CsvBuilder{TElement}.ToFileAsync(string)"/> method.
+        /// Default is <c>true</c>.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the BOM should be written; otherwise, <c>false</c>.
+        /// </value>
+        public bool AddBomInFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the source stream should be left open after disposing the <see cref="CsvReader{TElement}"/>.
+        /// Default is <c>true</c>.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the stream should be left open; otherwise, <c>false</c>.
+        /// </value>
+        public bool KeepStreamOpen { get; set; }
     }
 }

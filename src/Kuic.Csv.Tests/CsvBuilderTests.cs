@@ -25,7 +25,7 @@ namespace Kuic.Csv.Tests
         public void ToCsv_with_null_configuration_should_throw()
         {
             var enumerable = GetEnumerable();
-            L action = () => enumerable.ToCsv((CsvConfiguration)null!);
+            L action = () => enumerable.ToCsv((ICsvBuilderConfiguration)null!);
             action.Should().Throw<ArgumentNullException>().Where(ex => ex.ParamName == "configuration");
         }
 
@@ -33,7 +33,7 @@ namespace Kuic.Csv.Tests
         public void ToCsv_with_null_configure_should_throw()
         {
             var enumerable = GetEnumerable();
-            L action = () => enumerable.ToCsv((Action<CsvConfiguration>)null!);
+            L action = () => enumerable.ToCsv((Action<ICsvBuilderConfiguration>)null!);
             action.Should().Throw<ArgumentNullException>().Where(ex => ex.ParamName == "configure");
         }
 
@@ -41,7 +41,7 @@ namespace Kuic.Csv.Tests
         public void Ctor_with_null_enumerable_should_throw()
         {
             IEnumerable<CsvTestObject> enumerable = null!;
-            L action = () => new CsvBuilder<CsvTestObject>(enumerable);
+            L action = () => _ = new CsvBuilder<CsvTestObject>(enumerable);
             action.Should().Throw<ArgumentNullException>().Where(ex => ex.ParamName == "sourceData");
         }
 
@@ -49,7 +49,7 @@ namespace Kuic.Csv.Tests
         public void Ctor_with_null_configuration_should_throw()
         {
             IEnumerable<CsvTestObject> enumerable = GetEnumerable();
-            L action = () => new CsvBuilder<CsvTestObject>(enumerable, null!);
+            L action = () => _ = new CsvBuilder<CsvTestObject>(enumerable, null!);
             action.Should().Throw<ArgumentNullException>().Where(ex => ex.ParamName == "configuration");
         }
 
@@ -105,7 +105,7 @@ namespace Kuic.Csv.Tests
         [Fact]
         public async Task ToStreamAsync_should_escape_double_quotes_in_values()
         {
-            var builder = new CsvTestObject { StringProperty = "Hello\"World" }.AsEnumerable().ToCsv(c => c.AddHeaders = false).AddColumn("String", o => o.StringProperty);
+            var builder = new CsvTestObject { StringProperty = "Hello\"World" }.AsEnumerable().ToCsv(c => c.HasHeaders = false).AddColumn("String", o => o.StringProperty);
             using var stream = await builder.ToStreamAsync(null);
             stream.Seek(0, SeekOrigin.Begin);
             using var reader = new StreamReader(stream);
@@ -118,7 +118,7 @@ namespace Kuic.Csv.Tests
         {
             var builder = new CsvTestObject { StringProperty = "Hello;World" }.AsEnumerable().ToCsv(c =>
             {
-                c.AddHeaders = false;
+                c.HasHeaders = false;
                 c.Separator = ";";
             }).AddColumn("String", o => o.StringProperty);
             using var stream = await builder.ToStreamAsync(null);
@@ -133,7 +133,7 @@ namespace Kuic.Csv.Tests
         {
             var builder = new CsvTestObject { StringProperty = "Hello;World" }.AsEnumerable().ToCsv(c =>
             {
-                c.AddHeaders = false;
+                c.HasHeaders = false;
                 c.Separator = ",";
             }).AddColumn("String", o => o.StringProperty);
             using var stream = await builder.ToStreamAsync(null);
@@ -148,7 +148,7 @@ namespace Kuic.Csv.Tests
         {
             var builder = new CsvTestObject { StringProperty = "Hello\nWorld" }.AsEnumerable().ToCsv(c =>
             {
-                c.AddHeaders = false;
+                c.HasHeaders = false;
                 c.Separator = ";";
             }).AddColumn("String", o => o.StringProperty);
             using var stream = await builder.ToStreamAsync(null);
@@ -172,7 +172,8 @@ namespace Kuic.Csv.Tests
         [Fact]
         public async Task ToStreamAsync_should_throw_if_a_column_has_no_header()
         {
-            var builder = new CsvTestObject { StringProperty = "Hello\"World" }.AsEnumerable().ToCsv(c => c.AddHeaders = true).AddColumn(o => o.StringProperty);
+            var builder = new CsvTestObject { StringProperty = "Hello\"World" }.AsEnumerable().ToCsv().AddColumn(o => o.StringProperty);
+            builder.Configuration.HasHeaders = true;
             A action = () => builder.ToStreamAsync(null);
             await action.Should().ThrowAsync<InvalidOperationException>();
         }
@@ -180,7 +181,7 @@ namespace Kuic.Csv.Tests
         [Fact]
         public async Task ToStreamAsync_should_use_the_given_stream()
         {
-            var builder = new CsvTestObject { StringProperty = "Hello\"World" }.AsEnumerable().ToCsv(c => c.AddHeaders = true).AddColumn("String", o => o.StringProperty);
+            var builder = new CsvTestObject { StringProperty = "Hello\"World" }.AsEnumerable().ToCsv(c => c.HasHeaders = true).AddColumn("String", o => o.StringProperty);
             using var memStream = new MemoryStream();
             var resultStream = await builder.ToStreamAsync(memStream);
             resultStream.Should().BeSameAs(memStream);
@@ -196,7 +197,7 @@ namespace Kuic.Csv.Tests
                 {
                     c.Separator = ";";
                     c.Culture = culture;
-                    c.AddHeaders = false;
+                    c.HasHeaders = false;
                 });
 
                 using var stream = await builder.ToStreamAsync(null);
@@ -267,7 +268,7 @@ namespace Kuic.Csv.Tests
                     c.AddBomInFile = true;
                     c.Encoding = Encoding.UTF8;
                     c.SetCulture("en-US");
-                    c.AddHeaders = true;
+                    c.HasHeaders = true;
                     c.Separator = ";";
                 })
                     .AddColumn("String column", o => o.StringProperty)
@@ -292,7 +293,7 @@ namespace Kuic.Csv.Tests
             await action.Should().ThrowAsync<ArgumentNullException>().Where(ex => ex.ParamName == "filePath");
         }
 
-        private IEnumerable<CsvTestObject> GetEnumerable()
+        private static IEnumerable<CsvTestObject> GetEnumerable()
         {
             return Enumerable.Range(0, 100).Select(i => new CsvTestObject { SetOnlyProperty = $"Str{i}", DoubleProperty = i / 10D });
         }
